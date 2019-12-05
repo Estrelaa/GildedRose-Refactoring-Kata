@@ -79,7 +79,7 @@ namespace csharp
             }
         }
         [Test]
-        public void ConjuredManaCakeQuailtyLowersBy2PerDay()
+        public void ConjuredManaCakeQuailtyLowersByTwoPerDay()
         {
             //The test is assuming that the quailty starts at 6
             IList<Item> Items = AddItems.Items();
@@ -96,7 +96,7 @@ namespace csharp
             }
         }
         [Test]
-        public void AgedBrieIncreasesinQuailtyBy1()
+        public void AgedBrieIncreasesinQuailtyByOne()
         {
             IList<Item> Items = AddItems.Items();
 
@@ -110,6 +110,46 @@ namespace csharp
                     Assert.AreEqual(1, item.Quality);
                 }
             }
-        }    
+        }
+        [Test]
+        public void EveryItemQuailtyIsLessOrEqualTo50()
+        {
+            IList<Item> Items = AddItems.Items();
+
+            var app = new GildedRose(Items);
+            for (var i = 0; i < 30; i++)
+            {
+                app.UpdateQuality();
+            }
+
+            foreach (var item in Items)
+            {
+                //Sulfuras quality is 80 which is OK, Don't need to check that
+                if (item.Name != "Sulfuras, Hand of Ragnaros")
+                {
+                    Assert.LessOrEqual(item.Quality, 50);
+                }
+            }
+        }
+        [Test]
+        public void EveryItemQuailtyIsGreaterOrEqualTo50()
+        {
+            IList<Item> Items = AddItems.Items();
+
+            var app = new GildedRose(Items);
+            for (var i = 0; i < 30; i++)
+            {
+                app.UpdateQuality();
+            }
+
+            foreach (var item in Items)
+            {
+                //Sulfuras quality is 80 which is OK, Don't need to check that
+                if (item.Name != "Sulfuras, Hand of Ragnaros")
+                {
+                    Assert.GreaterOrEqual(item.Quality, 0);
+                }
+            }
+        }
     }
 }
