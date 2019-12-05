@@ -4,6 +4,7 @@ using System.Text;
 using ApprovalTests;
 using ApprovalTests.Reporters;
 using NUnit.Framework;
+using System.Collections.Generic;
 
 namespace csharp
 {
@@ -23,6 +24,17 @@ namespace csharp
             var output = fakeoutput.ToString();
 
             Approvals.Verify(output);
+        }
+        [Test]
+        public void SulfurasQuailtyIsAlways80()
+        {
+            StringBuilder fakeoutput = new StringBuilder();
+            Console.SetOut(new StringWriter(fakeoutput));
+            Console.SetIn(new StringReader(""));
+
+            Program.Main(new string[] { });
+            var output = fakeoutput.ToString();
+           
         }
     }
 }
