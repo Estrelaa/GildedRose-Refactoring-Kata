@@ -22,24 +22,16 @@ namespace csharp
                 {
                     if (Items[i].Name == "Aged Brie" || Items[i].Name == "Backstage passes to a TAFKAL80ETC concert")
                     {
-                        if (Items[i].Quality >= 50)
-                        {
-                            //Do nothing with this item, move on to the next item
-                        }
-                        else
-                        {
-                            UpdateQuailtyOfDifferentRulingItems(i);
-                        }
+                        UpdateQuailtyOfDifferentRulingItems(i);
                     }
                     else
                     {
                         UpdateQuailtyOfNormalItem(i);
-
                     }
 
                     Items[i].SellIn = Items[i].SellIn - 1;
                     UpdateQuailtyIfSellInIsZero(i);
-
+                    CheckThetQuailtyLevelIsWithinAllowedValues(i);
                 }
             }               
         }
@@ -86,10 +78,18 @@ namespace csharp
                 {
                     Items[i].Quality = Items[i].Quality + 1;
                 }
-                if (Items[i].Quality >= 50)
-                {
-                    Items[i].Quality = 50;
-                }
+            }
+        }
+
+        private void CheckThetQuailtyLevelIsWithinAllowedValues(int i)
+        {
+            if (Items[i].Quality >= 50)
+            {
+                Items[i].Quality = 50;
+            }
+            else if (Items[i].Quality < 0)
+            {
+                Items[i].Quality = 0;
             }
         }
 
