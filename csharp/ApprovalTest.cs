@@ -28,13 +28,88 @@ namespace csharp
         [Test]
         public void SulfurasQuailtyIsAlways80()
         {
-            StringBuilder fakeoutput = new StringBuilder();
-            Console.SetOut(new StringWriter(fakeoutput));
-            Console.SetIn(new StringReader(""));
+            IList<Item> Items = AddItems.Items();
 
-            Program.Main(new string[] { });
-            var output = fakeoutput.ToString();
-           
+            var app = new GildedRose(Items);
+            app.UpdateQuality();
+
+            foreach (var item in Items)
+            {
+                if (item.Name == "Sulfuras, Hand of Ragnaros")
+                {
+                    Assert.AreEqual(80, item.Quality);
+                }
+            }
+            
         }
+        [Test]
+        public void SulfurasSellInDoesNotChange()
+        {
+            IList<Item> Items = AddItems.Items();
+
+            var app = new GildedRose(Items);
+            app.UpdateQuality();
+
+            foreach (var item in Items)
+            {
+                if (item.Name == "Sulfuras, Hand of Ragnaros")
+                {
+                    //Asuming SellIn is less than 1
+                    Assert.LessOrEqual(item.SellIn, 1);
+                }
+            }
+
+        }
+        [Test]
+        public void ConjuredManaCakeQualityStaysZeroWhenItReachesZero()
+        {
+            IList<Item> Items = AddItems.Items();
+
+            var app = new GildedRose(Items);
+            for (var i = 0; i < 10; i++)
+            {
+                app.UpdateQuality();
+            }
+            foreach (var item in Items)
+            {
+                if (item.Name == "Conjured Mana Cake")
+                {
+                    Assert.AreEqual(0, item.Quality);
+                }
+            }
+        }
+        [Test]
+        public void ConjuredManaCakeQuailtyLowersBy2PerDay()
+        {
+            //The test is assuming that the quailty starts at 6
+            IList<Item> Items = AddItems.Items();
+
+            var app = new GildedRose(Items);
+            app.UpdateQuality();
+
+            foreach (var item in Items)
+            {
+                if (item.Name == "Conjured Mana Cake")
+                {
+                    Assert.AreEqual(4, item.Quality);
+                }
+            }
+        }
+        [Test]
+        public void AgedBrieIncreasesinQuailtyBy1()
+        {
+            IList<Item> Items = AddItems.Items();
+
+            var app = new GildedRose(Items);
+            app.UpdateQuality();
+
+            foreach (var item in Items)
+            {
+                if (item.Name == "Aged Brie")
+                {
+                    Assert.AreEqual(1, item.Quality);
+                }
+            }
+        }    
     }
 }
