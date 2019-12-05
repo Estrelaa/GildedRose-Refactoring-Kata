@@ -9,7 +9,6 @@ namespace csharp
         {
             this.Items = Items;
         }
-
         public void UpdateQuality()
         {
             for (var i = 0; i < Items.Count; i++)
@@ -59,7 +58,6 @@ namespace csharp
                 }
             }
         }
-
         private void UpdateQuailtyOfDifferentRulingItems(int i)
         {
             Items[i].Quality = Items[i].Quality + 1;
@@ -76,31 +74,26 @@ namespace csharp
                 }
             }
         }
-
+        private void UpdateQuailtyOfNormalItem(int i)
+        {
+            if (Items[i].Name == "Conjured Mana Cake")
+            {
+                Items[i].Quality = Items[i].Quality - 2;
+            }
+            else
+            {
+                Items[i].Quality = Items[i].Quality - 1;
+            }
+        }
         private void CheckThetQuailtyLevelIsWithinAllowedValues(int i)
         {
-            if (Items[i].Quality >= 50)
+            if (Items[i].Quality > 50)
             {
                 Items[i].Quality = 50;
             }
             else if (Items[i].Quality < 0)
             {
                 Items[i].Quality = 0;
-            }
-        }
-
-        private void UpdateQuailtyOfNormalItem(int i)
-        {
-            if (Items[i].Quality > 0)
-            {
-                if (Items[i].Name == "Conjured Mana Cake")
-                {
-                    Items[i].Quality = Items[i].Quality - 2;
-                }
-                else
-                {
-                    Items[i].Quality = Items[i].Quality - 1;
-                }
             }
         }
     }
